@@ -1,14 +1,48 @@
-container:
-  image: gcc:latest
+# Standard environment setup.
+env_template: &ENVIRONMENT
+  environment:
+    - LC_ALL: C
+    - CIRRUS_CLONE_DEPTH: 1
+  timeout_in: 10m
 
-
-task:
-  configure_script:
+# Standard compilation and testing rules
+compile_template: &COMPILE
+  compile_script:
     - autoreconf -i
     - ./configure
-
-  compile_script:
-    - make
+    - make -j4
 
   test_script:
     - make check
+
+#  on_failure:
+#    - cat tests/test-suite.log
+
+
+# ----------
+# Linux
+task:
+  << : *ENVIRONMENT
+  name: linux-gcc
+  container:
+    memory: 1G
+    image: gcc:latest
+#    matrix:
+#      - image: gcc:latest
+#      - image: clang:latest  # no clang image?
+
+  # Base environment already includes the packages we need.
+  << : *COMPILE
+
+# ----------
+# MacOS X
+task:
+  << : *ENVIRONMENT
+  name: macosx
+  osx_instance:
+    image: catalina-base
+
+  package_install_script:
+    - brew install autoconf automake libtool
+
+  << : *COMPILE
