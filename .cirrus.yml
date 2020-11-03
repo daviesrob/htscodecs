@@ -1,0 +1,14 @@
+container:
+  image: gcc:latest
+
+
+task:
+  configure_script:
+    - autoreconf -i
+    - ./configure
+
+  compile_script:
+    - make
+
+  test_script:
+    - make check
