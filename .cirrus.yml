@@ -82,6 +82,8 @@ task:
 
   compile_script:
     - set PATH=C:\tools\msys64\usr\bin;c:\tools\msys64\mingw64\bin;%PATH%
+    - dir
+    - ls
     - C:\tools\msys64\usr\bin\bash -lc 'printenv'
     - mingw64-make
 
