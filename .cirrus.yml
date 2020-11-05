@@ -47,7 +47,6 @@ centos_task:
         bzip2 bzip2-devel git diffutils
 
   << : *COMPILE
-  << : *TEST
 
 # ----------
 # MacOS X
@@ -83,5 +82,7 @@ task:
 
   compile_script:
     - set PATH=C:\tools\msys64\usr\bin;c:\tools\msys64\mingw64\bin;%PATH%
+    - C:\tools\msys64\usr\bin\bash -lc 'printenv'
     - mingw64-make
+
 #    - c:\tools\msys64\usr\bin\bash --login "%CD%\scripts\build.sh"
