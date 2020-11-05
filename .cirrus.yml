@@ -1,8 +1,8 @@
 # Standard environment setup.
 env_template: &ENVIRONMENT
   environment:
-    - LC_ALL: C
-    - CIRRUS_CLONE_DEPTH: 1
+    LC_ALL: C
+    CIRRUS_CLONE_DEPTH: 1
   timeout_in: 10m
 
 # Standard compilation and testing rules
@@ -21,18 +21,33 @@ compile_template: &COMPILE
 
 # ----------
 # Linux
+
 task:
   << : *ENVIRONMENT
   name: linux-gcc
   container:
     memory: 1G
     image: gcc:latest
-#    matrix:
-#      - image: gcc:latest
-#      - image: clang:latest  # no clang image?
 
   # Base environment already includes the packages we need.
   << : *COMPILE
+
+# CentOS
+centos_task:
+  name: centos-gcc
+  container:
+    image: centos:latest
+    cpu: 2
+    memory: 1G
+
+  # NB: we could consider building a docker image with these
+  # preinstalled and specifying that instead, to speed up testing.
+  install_script: |
+    yum install -y autoconf automake make gcc zlib-devel \
+        bzip2 bzip2-devel git diffutils
+
+  << : *COMPILE
+  << : *TEST
 
 # ----------
 # MacOS X
@@ -46,3 +61,27 @@ task:
     - brew install autoconf automake libtool
 
   << : *COMPILE
+
+
+# ----------
+# Windows MINGW
+task:
+  << : *ENVIRONMENT
+  name: windows
+  windows_container:
+    image: cirrusci/windowsservercore:cmake
+    os_version: 2019
+
+#  install_script:
+#    - choco install -y --no-progress mingw
+#...
+#    - set PATH=%PATH%;C:\Program Files\cmake\bin;C:\ProgramData\chocolatey\lib\mingw\tools\install\mingw64\bin
+
+#  setup_script:
+#    - set PATH=C:\tools\msys64\usr\bin;c:\tools\msys64\mingw64\bin;%PATH%
+#    - pacman --noconfirm -S gcc
+
+  compile_script:
+    - set PATH=C:\tools\msys64\usr\bin;c:\tools\msys64\mingw64\bin;%PATH%
+    - mingw64-make
+#    - c:\tools\msys64\usr\bin\bash --login "%CD%\scripts\build.sh"
