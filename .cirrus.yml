@@ -34,6 +34,7 @@ task:
 
 # CentOS
 centos_task:
+  << : *ENVIRONMENT
   name: centos-gcc
   container:
     image: centos:latest
@@ -83,7 +84,11 @@ task:
   compile_script:
     - set PATH=C:\tools\msys64\usr\bin;c:\tools\msys64\mingw64\bin;%PATH%
     - dir
-    - ls
+    - dir C:\
+    - dir C:\tools
+    - dir C:\tools\msys64
+    - dir C:\tools\msys64\usr
+    - dir C:\tools\msys64\usr\bin
     - C:\tools\msys64\usr\bin\bash -lc 'printenv'
     - mingw64-make
 
