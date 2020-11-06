@@ -50,7 +50,7 @@ centos_task:
   install_cache:
     folder: cache
     populate_script: |
-      yum install --install-root `pwd`/cache -y \
+      yum install --installroot `pwd`/cache -y \
           autoconf automake libtool make gcc zlib-devel \
           bzip2 bzip2-devel git diffutils
 
