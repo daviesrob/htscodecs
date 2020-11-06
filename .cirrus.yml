@@ -44,7 +44,7 @@ centos_task:
   # NB: we could consider building a docker image with these
   # preinstalled and specifying that instead, to speed up testing.
   install_script: |
-    yum install -y autoconf automake make gcc zlib-devel \
+    yum install -y autoconf automake libtool make gcc zlib-devel \
         bzip2 bzip2-devel git diffutils
 
   << : *COMPILE
@@ -82,14 +82,10 @@ task:
 #    - pacman --noconfirm -S gcc
 
   compile_script:
+    - echo %PATH%
+    - set
     - set PATH=C:\tools\msys64\usr\bin;c:\tools\msys64\mingw64\bin;%PATH%
     - dir
-    - dir C:\
-    - dir C:\tools
-    - dir C:\tools\msys64
-    - dir C:\tools\msys64\usr
-    - dir C:\tools\msys64\usr\bin
-    - C:\tools\msys64\usr\bin\bash -lc 'printenv'
     - mingw64-make
 
 #    - c:\tools\msys64\usr\bin\bash --login "%CD%\scripts\build.sh"
