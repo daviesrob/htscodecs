@@ -96,15 +96,19 @@ task:
   mingw_cache:
     # The entirety of chocholatey is heavyweight, but this is still
     # under half the time of installing mingw.
-    folder: C:\ProgramData\chocolatey
+    folder: C:\Tools
 
     # default fingerprint is task name (windows-X above)
     populate_script:
-      - choco install -y --no-progress mingw
+      # Maybe choco install msys2 and then msys2 pacman to install
+      # mingw, meaning we can archive the entire C:\tools dir?
+      - choco install -y --no-progress msys2 mingw 
 
   compile_script:
-    - set PATH=%PATH%;C:\ProgramData\chocolatey\lib\mingw\tools\install\mingw64\bin
-    - dir "C:\Program Files"
-    - mingw32-make
-
+#    - set PATH=%PATH%;C:\ProgramData\chocolatey\lib\mingw\tools\install\mingw64\bin
+#    - choco install runinbash
+    - set PATH=%PATH%;\C:\tools\msys64\usr\bin
 #    - c:\tools\msys64\usr\bin\bash --login "%CD%\scripts\build.sh"
+    - c:\tools\msys64\usr\bin\bash --login "autoreconf -i"
+    - c:\tools\msys64\usr\bin\bash "./configure"
+    - c:\tools\msys64\usr\bin\bash "make -j4"
