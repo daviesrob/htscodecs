@@ -69,8 +69,7 @@ task:
   << : *ENVIRONMENT
   name: windows
   windows_container:
-    image: cirrusci/windowsservercore:cmake
-    os_version: 2019
+    image: cirrusci/windowsservercore:2019
 
 #  install_script:
 #    - choco install -y --no-progress mingw
