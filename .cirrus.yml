@@ -43,14 +43,11 @@ centos_task:
     cpu: 2
     memory: 1G
 
-  environment:
-    PATH: ${PATH}:`pwd`/cache
-
   # See https://cirrus-ci.org/guide/writing-tasks/#cache-instruction
   install_cache:
-    folder: cache
+    folder: /usr # Will this work!? Could be huge...
     populate_script: |
-      yum install --installroot `pwd`/cache -y \
+      yum install -y \
           autoconf automake libtool make gcc zlib-devel \
           bzip2 bzip2-devel git diffutils
 
