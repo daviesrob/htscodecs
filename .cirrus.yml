@@ -1,3 +1,5 @@
+
+
 # Standard environment setup.
 env_template: &ENVIRONMENT
   environment:
@@ -41,11 +43,18 @@ centos_task:
     cpu: 2
     memory: 1G
 
-  # NB: we could consider building a docker image with these
-  # preinstalled and specifying that instead, to speed up testing.
-  install_script: |
-    yum install -y autoconf automake libtool make gcc zlib-devel \
-        bzip2 bzip2-devel git diffutils
+  # See https://cirrus-ci.org/guide/writing-tasks/#cache-instruction
+  install_cache:
+    folder: centos
+    populate_script: |
+      yum install -y autoconf automake libtool make gcc zlib-devel \
+          bzip2 bzip2-devel git diffutils
+
+#  # NB: we could consider building a docker image with these
+#  # preinstalled and specifying that instead, to speed up testing.
+#  install_script: |
+#    yum install -y autoconf automake libtool make gcc zlib-devel \
+#        bzip2 bzip2-devel git diffutils
 
   << : *COMPILE
 
@@ -93,10 +102,6 @@ task:
 
   compile_script:
     - set PATH=%PATH%;C:\Program Files\cmake\bin;C:\ProgramData\chocolatey\lib\mingw\tools\install\mingw64\bin
-#    - choco install -y --no-progress mingw
-#    - set PATH=C:\tools\msys64\usr\bin;c:\tools\msys64\mingw64\bin;%PATH%
-    - dir C:\ProgramData\chocolatey\bin
-    - dir C:\ProgramData\chocolatey\lib\mingw\tools\install\mingw64\bin
-    - mingw64-make
+    - mingw32-make
 
 #    - c:\tools\msys64\usr\bin\bash --login "%CD%\scripts\build.sh"
