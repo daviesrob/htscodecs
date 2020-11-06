@@ -67,7 +67,7 @@ task:
 # Windows MINGW
 task:
   << : *ENVIRONMENT
-  name: windows
+  name: windows-1
   windows_container:
     image: cirrusci/windowsservercore:2019
 
@@ -80,9 +80,16 @@ task:
 #    - set PATH=C:\tools\msys64\usr\bin;c:\tools\msys64\mingw64\bin;%PATH%
 #    - pacman --noconfirm -S gcc
 
-  install_script:
-    - dir C:\ProgramData\chocolatey\bin
-    - choco install -dv mingw
+  # See https://cirrus-ci.org/guide/writing-tasks/#cache-instruction
+  mingw_cache:
+    folder: mingw_cache
+    # default fingerprint is task name (windows-X above)
+    populate_script:
+      - choco install -dv -y mingw
+
+#  install_script:
+#    - dir C:\ProgramData\chocolatey\bin
+#    - choco install -dv -y mingw
 
   compile_script:
     - set PATH=%PATH%;C:\Program Files\cmake\bin;C:\ProgramData\chocolatey\lib\mingw\tools\install\mingw64\bin
