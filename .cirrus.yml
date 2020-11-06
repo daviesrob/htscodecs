@@ -81,16 +81,18 @@ task:
 #    - set PATH=C:\tools\msys64\usr\bin;c:\tools\msys64\mingw64\bin;%PATH%
 #    - pacman --noconfirm -S gcc
 
-  compile_script: |
-    set PATH=%PATH%;C:\Program Files\cmake\bin;C:\ProgramData\chocolatey\lib\mingw\tools\install\mingw64\bin
-    choco -h
-    choco install -y mingw
+  install_script:
+    - choco -h
+    - choco install -y --no-progress mingw
+
+  compile_script:
+    - set PATH=%PATH%;C:\Program Files\cmake\bin;C:\ProgramData\chocolatey\lib\mingw\tools\install\mingw64\bin
 #    - choco install -y --no-progress mingw
 #    - set PATH=C:\tools\msys64\usr\bin;c:\tools\msys64\mingw64\bin;%PATH%
-    dir C:\ProgramData\chocolatey\bin
-    dir C:\ProgramData\chocolatey\lib
-    dir C:\ProgramData\cmake\bin
-    dir C:\ProgramData\chocolatey\lib\mingw\tools\install\mingw64\bin
-    mingw64-make
+    - dir C:\ProgramData\chocolatey\bin
+    - dir C:\ProgramData\chocolatey\lib
+    - dir C:\ProgramData\cmake\bin
+    - dir C:\ProgramData\chocolatey\lib\mingw\tools\install\mingw64\bin
+    - mingw64-make
 
 #    - c:\tools\msys64\usr\bin\bash --login "%CD%\scripts\build.sh"
