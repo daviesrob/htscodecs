@@ -97,15 +97,15 @@ task:
     folder: C:\ProgramData\chocolatey
     # default fingerprint is task name (windows-X above)
     populate_script:
-      - choco install -y mingw
+      - choco install -y --no-progress mingw
 
 #  install_script:
 #    - dir C:\ProgramData\chocolatey\bin
 #    - choco install -y mingw
 
-  compile_script:
-    - set PATH=%PATH%;C:\Program Files\cmake\bin;C:\ProgramData\chocolatey\lib\mingw\tools\install\mingw64\bin
-    - dir C:\Program Files
-#    - mingw32-make
+#  compile_script:
+#    - set PATH=%PATH%;C:\Program Files\cmake\bin;C:\ProgramData\chocolatey\lib\mingw\tools\install\mingw64\bin
+#    - dir C:\Program Files
+##    - mingw32-make
 
 #    - c:\tools\msys64\usr\bin\bash --login "%CD%\scripts\build.sh"
