@@ -43,19 +43,20 @@ centos_task:
     cpu: 2
     memory: 1G
 
-  # See https://cirrus-ci.org/guide/writing-tasks/#cache-instruction
-  install_cache:
-    folder: /usr # Will this work!? Could be huge...
-    populate_script: |
-      yum install -y \
-          autoconf automake libtool make gcc zlib-devel \
-          bzip2 bzip2-devel git diffutils
+#  # See https://cirrus-ci.org/guide/writing-tasks/#cache-instruction
+#  # Not worth it as it takes longer to unpack the /usr updates than
+#  # to just install the bits we need.  No easy way to install elsewhere
+#  # either. :/
+#  install_cache:
+#    folder: /usr # Will this work!? It's ~150Mb.  Yes, but don't bother
+#    populate_script: |
+#      yum install -y \
+#          autoconf automake libtool make gcc zlib-devel \
+#          bzip2 bzip2-devel git diffutils
 
-#  # NB: we could consider building a docker image with these
-#  # preinstalled and specifying that instead, to speed up testing.
-#  install_script: |
-#    yum install -y autoconf automake libtool make gcc zlib-devel \
-#        bzip2 bzip2-devel git diffutils
+  install_script: |
+    yum install -y autoconf automake libtool make gcc zlib-devel \
+        bzip2 bzip2-devel git diffutils
 
   << : *COMPILE
 
@@ -79,7 +80,8 @@ task:
   << : *ENVIRONMENT
   name: windows-1
   windows_container:
-    image: cirrusci/windowsservercore:cmake
+    image: cirrusci/windowsservercore:2019
+    os_version: 2019
 
 #  install_script:
 #    - choco install -y --no-progress mingw
