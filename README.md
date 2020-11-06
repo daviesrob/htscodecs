@@ -1,6 +1,8 @@
 Htscodecs
 =========
 
+[![Build Status](https://api.cirrus-ci.com/github/jkbonfield/htscodecs.svg?branch=master)](https://cirrus-ci.com/github/jkbonfield/htscodecs)
+
 This repository implements the custom CRAM codecs used for "EXTERNAL"
 block types.  These consist of two variants of the rANS codec (8-bit
 and 16-bit renormalisation, with run-length encoding and bit-packing
@@ -211,6 +213,3 @@ filled out with the decoded length of each quality string.  Note
 regardless of whether lengths is NULL or not, the buffer returned will
 be concatenated values so there is no way to tell where one record
 finishes and the next starts.  (CRAM itself knows this via other means.)
-
-
-[![Build Status](https://api.cirrus-ci.com/github/jkbonfield/htscodecs.svg?branch=master)](https://cirrus-ci.com/github/jkbonfield/htscodecs)
