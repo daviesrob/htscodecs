@@ -78,7 +78,7 @@ task:
   << : *ENVIRONMENT
   name: windows-1
   windows_container:
-    image: cirrusci/windowsservercore:2019
+    image: cirrusci/windowsservercore:cmake
 
 #  install_script:
 #    - choco install -y --no-progress mingw
@@ -102,6 +102,7 @@ task:
 
   compile_script:
     - set PATH=%PATH%;C:\Program Files\cmake\bin;C:\ProgramData\chocolatey\lib\mingw\tools\install\mingw64\bin
+    - dir C:\Program Files
     - mingw32-make
 
 #    - c:\tools\msys64\usr\bin\bash --login "%CD%\scripts\build.sh"
